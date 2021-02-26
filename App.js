@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faBirthdayCake} from '@fortawesome/free-solid-svg-icons';
+import React, {useState, useEffect} from 'react';
+import RNRestart from 'react-native-restart';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,7 +11,7 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
-  Modal
+  Modal,
 } from 'react-native';
 
 export default function App() {
@@ -19,7 +22,14 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    switch(mode) {
+    if (modalOpen)
+    {
+      setTotal(0);
+      setNum1(0);
+      setNum2(0);
+      setMode('Add');
+    }
+    switch (mode) {
       case 'Add':
         setTotal(num1 + num2);
         break;
@@ -28,10 +38,8 @@ export default function App() {
         break;
       case 'Multiply':
         setTotal(num1 * num2);
-        if (num1 == 2 && num2 == 26)
-        {
+        if (num1 == 2 && num2 == 26) {
           setModalOpen(true);
-          setNum1(1);
         }
         break;
       case 'Divide':
@@ -39,22 +47,19 @@ export default function App() {
         break;
       default:
         break;
-    }    
+    }
   });
 
   const changeHandler = (number, text) => {
-    if (number == 1)
-    {
+    if (number == 1) {
       setNum1(text);
-    }
-    else
-    {
+    } else {
       setNum2(text);
     }
-  }
+  };
 
   const changeMode = (number) => {
-    switch(number) {
+    switch (number) {
       case 1:
         setMode('Add');
         break;
@@ -69,50 +74,83 @@ export default function App() {
       default:
         break;
     }
-  }
+  };
 
-  return(
+  return (
     <View style={styles.container}>
-      <Modal visible={modalOpen} animationType='slide'>
+      <Modal visible={modalOpen} animationType="slide">
         <View style={styles.modalContent}>
           <TouchableOpacity>
-            <Text onPress={() => setModalOpen(false)} style={{fontSize: 24, marginBottom: 20}}>X</Text>
+            <Text
+              onPress={() => setModalOpen(false)}
+              style={{fontSize: 24, marginBottom: 20}}>
+              X
+            </Text>
           </TouchableOpacity>
           <Text style={styles.birthdayWishes}>Happy Birthday To You!</Text>
           <Text style={styles.birthdayWishes}>Happy Birthday To You!</Text>
           <Text style={styles.birthdayWishes}>I Luh You So Very Much!</Text>
           <Text style={styles.birthdayWishes}>Happy Birthday To You!</Text>
-          <Text style={{padding:10}}></Text>
-          <Text style={styles.birthdaySong}>I Love You A Bushel And a Peck!</Text>
+          <Text style={{padding: 10}}></Text>
+          <Text style={styles.birthdaySong}>
+            I Love You A Bushel And a Peck!
+          </Text>
           <Text style={styles.birthdaySong}>A Bushel And A Peck!</Text>
           <Text style={styles.birthdaySong}>And A Hug Around The Neck!</Text>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '53%',
+            }}>
+            <FontAwesomeIcon
+              icon={faBirthdayCake}
+              color={'#ae34eb'}
+              size={250}
+            />
+          </View>
         </View>
       </Modal>
       <Text style={styles.title}>Number 1:</Text>
-      <TextInput style={styles.input} keyboardType='numeric' defaultValue='0' onChangeText = {(text) => changeHandler(1, +text)}></TextInput>
+      <TextInput
+        style={styles.input}
+        keyboardType="numeric"
+        onChangeText={(text) => changeHandler(1, +text)}
+        value={num1.toString()}></TextInput>
       <Text style={styles.title}>Number 2:</Text>
-      <TextInput style={styles.input} keyboardType='numeric' defaultValue='0' onChangeText = {(text) => changeHandler(2, +text)}></TextInput>
+      <TextInput
+        style={styles.input}
+        keyboardType="numeric"
+        onChangeText={(text) => changeHandler(2, +text)}
+        value={num2.toString()}></TextInput>
       <Text style={styles.title}>Total:</Text>
       <Text style={styles.text}>{total}</Text>
       <Text style={styles.title}>Current Mode: {mode}</Text>
       <Text style={styles.title}>Select Mode:</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPressOut={() => changeMode(1)}>
-        <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPressOut={() => changeMode(2)}>
-        <Text style={styles.buttonText}>-</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPressOut={() => changeMode(3)}>
-        <Text style={styles.buttonText}>*</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPressOut={() => changeMode(4)}>
-        <Text style={styles.buttonText}>/</Text>
-      </TouchableOpacity>  
+        <TouchableOpacity
+          style={styles.button}
+          onPressOut={() => changeMode(1)}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPressOut={() => changeMode(2)}>
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPressOut={() => changeMode(3)}>
+          <Text style={styles.buttonText}>*</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPressOut={() => changeMode(4)}>
+          <Text style={styles.buttonText}>/</Text>
+        </TouchableOpacity>
       </View>
-            
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -127,7 +165,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 1,
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   input: {
     marginTop: 16,
@@ -136,12 +174,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 1,
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   title: {
     marginTop: 10,
     fontSize: 14,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button: {
     marginTop: 16,
@@ -151,25 +189,26 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     fontSize: 14,
     backgroundColor: '#DDD',
-    width: '20%'
+    width: '20%',
   },
   buttonText: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   birthdayWishes: {
     fontSize: 36,
     textAlign: 'center',
     color: '#ae34eb',
-    backgroundColor: '#eedeff'
+    backgroundColor: '#eedeff',
   },
   birthdaySong: {
     fontSize: 28,
     textAlign: 'center',
     color: '#ae34eb',
-    backgroundColor: '#eedeff'
-  }
+    backgroundColor: '#eedeff',
+  },
+  icon: {},
 });
